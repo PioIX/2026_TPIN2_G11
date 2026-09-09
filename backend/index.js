@@ -74,7 +74,7 @@ app.post("/postUsuarios", async function (req, res) {
 });
 
 
-app.post("/postChats, async function (req, res) {
+app.post("/postChats", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
     `INSERT INTO Chats(nombre, foto) VALUES ('${req.body.nombre}', '${req.body.foto}')`
