@@ -1,0 +1,22 @@
+var express = require("express"); //Tipo de servidor: Express
+var bodyParser = require("body-parser"); //Convierte los JSON
+var cors = require("cors");
+
+const { realizarQuery } = require("./modulos/mysql");
+
+var app = express(); //Inicializo express
+
+app.use(express.static('../front')); //Hago que el servidor sirva los archivos de la carpeta front
+
+var port = process.env.PORT || 4000; //Ejecuto el servidor en el puerto 4000
+
+// Convierte una petición recibida (POST-GET...) a objeto JSON
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
+
+//Pongo el servidor a escuchar
+app.listen(port, function () {
+  console.log(`Server running in http://localhost:${port}`);
+});
+
