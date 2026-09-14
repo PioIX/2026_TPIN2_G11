@@ -1,3 +1,3 @@
-export default function ListaContactos() {
+export default function Contactos() {
     
 }
