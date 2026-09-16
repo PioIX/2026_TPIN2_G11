@@ -6,7 +6,7 @@ import { useState } from "react";
 export default function NuevoChatPopup({ onClick }) {
   const [mail, setMail] = useState("");
 
-  return (
+  return ( // Falta que pueda agregar input para nombre y foto del chat
     <Popup trigger={<button> Crear chat </button>} modal nested>
       {(close) => (
         <div className="modal">
@@ -23,7 +23,9 @@ export default function NuevoChatPopup({ onClick }) {
             />
           </div>
           <div className="actions">
-            <button onClick={() => onClick(mail)}>Crear chat</button>
+            <button onClick={() => onClick(mail)}>
+              Crear chat
+            </button>
             <button className="button" onClick={close}>
               Cerrar
             </button>

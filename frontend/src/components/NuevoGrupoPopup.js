@@ -14,7 +14,7 @@ export default function NuevoGrupoPopup({ onClick }) {
 
   const agregarInput = () => setMails([...mails, ""]);
 
-  return (
+  return ( // Falta que pueda agregar input para nombre y foto del grupo
     <Popup trigger={<button> Crear grupo </button>} modal nested>
       {(close) => (
         <div className="modal">
@@ -38,7 +38,7 @@ export default function NuevoGrupoPopup({ onClick }) {
           </div>
           <div className="actions">
             <button
-              onClick={() => onClick(mails.filter((m) => m.trim() !== ""))}
+              onClick={() => onClick(mails.filter((mail) => mail.trim() !== ""))}
             >
               Crear grupo
             </button>
