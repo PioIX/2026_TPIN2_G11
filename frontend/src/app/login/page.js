@@ -7,73 +7,64 @@ import Button from "@/components/Button"
 import { useEffect, useState } from "react";
 
 export default function LoginRegistro(){
-    [nombre,setNombre] = useState("")
-    [contraseña, setContraseña] = useState("")
+    [mail,setMail] = useState("")
+    [contraseña, setUserContraseña] = useState("")
+    
+    useEffect(() => {
 
-    function escribirMail(event){ //setear mail lel
-        setNombre(event.target.value)
-        console.log(nombre)
+    }, [mail])
+
+    function escribirMail(event){ //CAMBIAR ESTO, HACERLO EN EL BOTON
+        setMail(event.target.value)
+        console.log(mail)
     }
 
     function escribirContraseña(event){ //setear contraseña lol
         setContraseña(event.target.value)
         console.log(contraseña)
     }
-
-    async function login(nombre, contraseña) {
-            console.log("entre a login: ", nombre, contraseña);
-
-            const body = {
-                nombre: nombre,
-                contraseña: contraseña,
-            };
-
-            const opciones = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-            };
-
-            const respuesta = await fetch("http://localhost:4000/postLogin", opciones);
-            const jsonRes = await respuesta.json();
-
-            return jsonRes;
-    };
-
-
-    async function handleLogin() {
-        if (nombre === "" || contraseña === "") {
-            console.log("error, datos vacios");
-            return;
+    
+    const Login = (mail, constraseña) => {
+        if (mail === "" || constraseña === ""){
+            return(
+                <>
+                    <p style={{color: "red"}}>Error, datos vacios.</p>
+                </>
+            )   
         }
 
-        const res = await login(nombre, contraseña);
-        console.log(res);
-        if (res.length === 0) {
-            console.log("Error: El usuario no existe o la contraseña es invalida");
-            return;
+        const userInfo = {
+            mail: mail,
+            contraseña: constraseña
+        }
+
+        fetch('http://localhost:4000/postLogin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userInfo)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            localStorage.setItem("userID", data.id)
+        });
+
+        if (data.length === 0){
+            return(
+                <>
+                    <p style={{color:"red"}}>Error, usuario o contraseña incorrecto.</p>
+                </>
+            )
         }
     }
-
-    /*useEffect(()=> {
-        fetch("https://localhost:3000/postLogin")
-        .then((response) => (response.json()))
-        .then((data) => (setNombre(data.nombre)))
-        .then((data) => (setContraseña(data.contraseña)))
-    }, [])*/ /*Esto no va bien*/
 
     return(
         <>
             <Title text={"Login"}></Title>
-            <InputLogin title={"Nombre de usuario"} type={text} placeholder={"XxPepito123xX"} onChange={escribirNombre}></InputLogin>
+            <InputLogin title={"Mail"} type={text} placeholder={"pepito123@gmail.com"} onChange={escribirMail}></InputLogin>
             <InputLogin title={"Contraseña"} type={text} placeholder={"******"} onChange={escribirContraseña}></InputLogin>
-            {(nombre == "" || constraseña == "") ? (
-                <p color="red">por favor complete todos los campos.</p>
-            ) : (
-                <Button funcion={handleLogin} text={"Ingresar"}></Button>
-                )}
         </>
     )
 }
