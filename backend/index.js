@@ -93,5 +93,18 @@ app.post("/postMensajes", async function (req, res) {
   res.send(respuesta);
 });
 
+// POST PARA EL LOGIN
+app.post("/postLogin", async function (req, res) {
+  console.log(req.body);
+
+  const respuesta = await realizarQuery(
+    `SELECT * FROM Usuarios WHERE mail = '${req.body.mail}' AND contraseña = '${req.body.contraseña}'`
+  );
+
+  console.log("respuesta: ", respuesta);
+
+  res.send(respuesta[0]);
+});
+
 
 
