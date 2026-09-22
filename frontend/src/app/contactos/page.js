@@ -7,8 +7,8 @@ export default function Contactos() {
 
     useEffect(()=>{
         const pedirChats = async() =>{
-            const listaChatsID = await fetch(`http://localhost:4000/getUsuariosChat/${userID}`)
-            setChatsID(listaChats)
+            const listaChats = await fetch(`http://localhost:4000/getUsuariosChat/${userID}`)
+            setChats(listaChats)
         }
 
         pedirChats()
@@ -18,7 +18,7 @@ export default function Contactos() {
     return (
         <main>
             {chats && listaChats.map((chat)=>{
-                <ChatList/>
+                <ChatList chats={chats}/>
             })}    
         </main>
     )
