@@ -6,7 +6,7 @@ const { realizarQuery } = require("./modulos/mysql");
 
 var app = express(); //Inicializo express
 
-app.use(express.static('../front')); //Hago que el servidor sirva los archivos de la carpeta front
+app.use(express.static("../front")); //Hago que el servidor sirva los archivos de la carpeta front
 
 var port = process.env.PORT || 4000; //Ejecuto el servidor en el puerto 4000
 
@@ -33,7 +33,7 @@ app.get("/getUsuarios", async function (req, res) {
 app.get("/getUsuariosChat", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM UsuariosChat;
+        SELECT * FROM UsuariosChat WHERE id_usuario = ${req.query} ;
     `);
   console.log({ respuesta });
   res.send(respuesta);
@@ -73,8 +73,7 @@ app.post("/postUsuarios", async function (req, res) {
   res.send(respuesta);
 });
 
-
-app.post("/postChats, async function (req, res) {
+app.post("/postChats", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
     `INSERT INTO Chats(nombre, foto) VALUES ('${req.body.nombre}', '${req.body.foto}')`
@@ -82,7 +81,6 @@ app.post("/postChats, async function (req, res) {
   console.log({ respuesta });
   res.send(respuesta);
 });
-
 
 app.post("/postMensajes", async function (req, res) {
   console.log(req.body);
@@ -92,6 +90,3 @@ app.post("/postMensajes", async function (req, res) {
   console.log({ respuesta });
   res.send(respuesta);
 });
-
-
-
