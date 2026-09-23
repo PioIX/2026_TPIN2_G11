@@ -6,7 +6,7 @@ const { realizarQuery } = require("./modulos/mysql");
 
 var app = express(); //Inicializo express
 
-app.use(express.static('../front')); //Hago que el servidor sirva los archivos de la carpeta front
+app.use(express.static("../front")); //Hago que el servidor sirva los archivos de la carpeta front
 
 var port = process.env.PORT || 4000; //Ejecuto el servidor en el puerto 4000
 
@@ -33,7 +33,7 @@ app.get("/getUsuarios", async function (req, res) {
 app.get("/getUsuariosChat", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM UsuariosChat;
+        SELECT * FROM UsuariosChat WHERE id_usuario = ${req.query} ;
     `);
   console.log({ respuesta });
   res.send(respuesta);
@@ -93,7 +93,6 @@ app.post("/postChats", async function (req, res) {
   res.send(respuesta);
 });
 
-
 app.post("/postMensajes", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
@@ -102,19 +101,3 @@ app.post("/postMensajes", async function (req, res) {
   console.log({ respuesta });
   res.send(respuesta);
 });
-
-// POST PARA EL LOGIN
-app.post("/postLogin", async function (req, res) {
-  console.log(req.body);
-
-  const respuesta = await realizarQuery(
-    `SELECT * FROM Usuarios WHERE mail = '${req.body.mail}' AND contraseña = '${req.body.contraseña}'`
-  );
-
-  console.log("respuesta: ", respuesta);
-
-  res.send(respuesta[0]);
-});
-
-
-
