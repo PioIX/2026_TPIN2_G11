@@ -1,7 +1,7 @@
 "use client"
 
-function Button(){
+function Button({color, funcion,text}){
     <>
-        <button onclick={funcion}>{text}</button>
+        <button style={{backgroundColor:{color}}} onclick={funcion}>{text}</button>
     </>
 }

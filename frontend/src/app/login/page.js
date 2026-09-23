@@ -79,9 +79,9 @@ export default function LoginPage(){
             <Title text={"Login"}></Title>
             <Input title={"Mail"} type={text} placeholder={"pepito123@gmail.com"} onChange={escribirMail}></Input>
             <Input title={"Contraseña"} type={text} placeholder={"******"} onChange={escribirContraseña}></Input>
-            <Button funcion={Login} text={"Login"}></Button>
+            <Button funcion={Login} text={"Login"} color={"green"}></Button>
             <hr></hr>
-            <Button funcion={() => {router.push("/registro")}} text="Registrarme"></Button>
+            <Button funcion={() => {router.push("/registro")}} text="Registrarme" color={"blue"}></Button>
         </>
     )
 }

@@ -72,7 +72,7 @@ app.get("/getLoginNombre", async function (req, res) {
 app.post("/postUsuarios", async function (req, res) {
   console.log(req.body);
   let respuesta = await realizarQuery(
-    `SELECT * FROM Usuarios WHERE nombre = '${req.body.nombre}' AND descripcion = '${req.body.descripcion}' AND foto = '${req.body.foto}' AND contraseña = '${req.body.contraseña}' AND mail = '${req.body.mail}'`
+    `SELECT * FROM Usuarios WHERE nombre = '${req.body.nombre}' AND contraseña = '${req.body.contraseña}' AND mail = '${req.body.mail}'`
   );
   if (respuesta.length == 0) {
     await realizarQuery(
