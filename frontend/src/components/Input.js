@@ -1,6 +1,6 @@
 "use client"
 
-function InputLogin({type, placeholder, title}){
+function Input({type, placeholder, title}){
     <>
         <legend>{title}</legend>
         <input type={type} placeholder={placeholder} onChange={onChange} required/>

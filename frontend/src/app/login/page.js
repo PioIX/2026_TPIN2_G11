@@ -1,34 +1,44 @@
 "use client"
 
 import Title from "@/components/Title"
-import InputLogin from "@/components/Input"
+import Input from "@/components/Input"
 import Button from "@/components/Button"
+import Mensaje from "@/components/Mensaje"
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function LoginRegistro(){
+export default function LoginPage(){
+    const router = useRouter();
+
     [mail,setMail] = useState("")
-    [contraseña, setUserContraseña] = useState("")
-    
-    useEffect(() => {
+    [contraseña, setContraseña] = useState("")
 
-    }, [mail])
-
-    function escribirMail(event){ //CAMBIAR ESTO, HACERLO EN EL BOTON
+    //setear contraseña y mail cuando lo escribe lel
+    const escribirMail = (event) => { 
         setMail(event.target.value)
         console.log(mail)
     }
-
-    function escribirContraseña(event){ //setear contraseña lol
+    const escribirContraseña = (event) => { 
         setContraseña(event.target.value)
         console.log(contraseña)
     }
+
+    useEffect(() => {
+        if (mail === "" || contraseña === ""){
+            return(
+                <>
+                    <Mensaje text={"Porfavor complete todos los campos"}></Mensaje>
+                </>
+            )
+        }
+    }, [mail, contraseña])
     
     const Login = (mail, constraseña) => {
         if (mail === "" || constraseña === ""){
             return(
                 <>
-                    <p style={{color: "red"}}>Error, datos vacios.</p>
+                    <Mensaje text={"Error, complete todos los campos."}></Mensaje>
                 </>
             )   
         }
@@ -51,20 +61,27 @@ export default function LoginRegistro(){
             localStorage.setItem("userID", data.id)
         });
 
-        if (data.length === 0){
+        if (data.length === 0){ //Si no existe, muestra error (en teoria ._.)
             return(
                 <>
-                    <p style={{color:"red"}}>Error, usuario o contraseña incorrecto.</p>
+                    <Mensaje text={"Error, usuario o contraseña incorrecto."}></Mensaje>
                 </>
             )
+        }
+
+        if (data.length != 0){ //si si existe, lo manda a la pagina de contactos
+            router.push("/contactos?nombre=${data.nombre}")
         }
     }
 
     return(
         <>
             <Title text={"Login"}></Title>
-            <InputLogin title={"Mail"} type={text} placeholder={"pepito123@gmail.com"} onChange={escribirMail}></InputLogin>
-            <InputLogin title={"Contraseña"} type={text} placeholder={"******"} onChange={escribirContraseña}></InputLogin>
+            <Input title={"Mail"} type={text} placeholder={"pepito123@gmail.com"} onChange={escribirMail}></Input>
+            <Input title={"Contraseña"} type={text} placeholder={"******"} onChange={escribirContraseña}></Input>
+            <Button funcion={Login} text={"Login"}></Button>
+            <hr></hr>
+            <Button funcion={() => {router.push("/registro")}} text="Registrarme"></Button>
         </>
     )
 }
