@@ -18,7 +18,7 @@ export default function Contactos() {
     return (
         <main>
             {chats && listaChats.map((chat)=>{
-                <ChatList chats={chats}/>
+                <ChatList chats={chat}/>
             })}    
         </main>
     )
