@@ -6,13 +6,11 @@ import ChatList from "./ChatList";
 export default function Contactos() {
   const userID = localstorage.getItem("userID");
   const [chats, setChats] = useState([]);
-  const searchParams = useSearchParams();
-  const user = searchParams.get("nombre");
 
   useEffect(() => {
     const pedirChats = async () => {
       const listaChats = await fetch(
-        `http://localhost:4000/getUsuariosChat/${userID}`
+        `http://localhost:4000/getUsuariosChat/id=${userID}`
       );
       setChats(listaChats);
     };
@@ -23,7 +21,7 @@ export default function Contactos() {
   return (
     <main>
       <h1>
-        Bienvenido/a, <span>{user}</span>
+        ¡Bienvenido/a!
       </h1>
       {chats &&
         chats.map((chat) => {

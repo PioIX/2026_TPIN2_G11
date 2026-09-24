@@ -114,7 +114,7 @@ app.get("/getChats", async function (req, res) {
 app.get("/getMensajes", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM Mensajes;
+        SELECT * FROM Mensajes WHERE id_chat = ${req.query};
     `);
   console.log({ respuesta });
   res.send(respuesta);

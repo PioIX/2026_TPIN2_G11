@@ -8,7 +8,7 @@ export default function ChatItem({ nombre, foto, id }) {
 
   return (
     <li>
-      <button onClick={router.push(`/chat?sala=${id}&usuario=${usuario}`)}>
+      <button onClick={router.push(`/chat?sala=${id}`)}>
         <img src={foto_chat} alt={nombre} />
         <span>{nombre}</span>
       </button>
