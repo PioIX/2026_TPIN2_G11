@@ -1,7 +1,9 @@
 "use client"
 
-function Button({color, funcion,text}){
-    <>
-        <button style={{backgroundColor:{color}}} onclick={funcion}>{text}</button>
+export default function Button({color,onClick,text}){
+    return(
+        <>
+        <button style={{backgroundColor:{color}}} onClick={onClick}>{text}</button>
     </>
+    )
 }

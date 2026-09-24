@@ -1,7 +1,8 @@
 "use client"
 
-function Title({text}){
+export default function Title({text}){
+    return(
     <>
         <h1>{text}</h1>
-    </>
+    </>)
 }
