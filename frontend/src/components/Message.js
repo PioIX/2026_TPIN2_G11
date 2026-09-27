@@ -1,5 +1,11 @@
-export default function Message({ mensaje, remitente, usuarioActual}) {
+export default function Message({ mensaje, esDelUsuario }) {
     return (
-            <li className={`message ${remitente === usuarioActual ? 'enviado' : 'recibido'}`}>{mensaje}</li>
+        <li
+            style={{
+                display: "flex",
+                justifyContent: esDelUsuario ? "flex-end" : "flex-start",
+            }}
+        >{mensaje.contenido}
+        </li>
     );
 }
