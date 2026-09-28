@@ -3,7 +3,7 @@
 import Title from "@/components/Title"
 import Input from "@/components/Input"
 import Button from "@/components/Button"
-import Mensaje from "@/components/Mensaje"
+import Error from "@/components/Error"
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,8 +11,8 @@ import { useRouter } from "next/navigation";
 export default function LoginPage(){
     const router = useRouter();
 
-    [mail,setMail] = useState("")
-    [contraseña, setContraseña] = useState("")
+    const [mail,setMail] = useState("")
+    const [contraseña, setContraseña] = useState("")
 
     //setear contraseña y mail cuando lo escribe lel
     const escribirMail = (event) => { 
@@ -25,20 +25,33 @@ export default function LoginPage(){
     }
 
     useEffect(() => {
+        console.log(contraseña)
+    }, [contraseña])
+
+    useEffect(() => {
+        console.log(mail)
+    }, [mail])
+
+    /*useEffect(() => {
         if (mail === "" || contraseña === ""){
             return(
                 <>
-                    <Mensaje text={"Porfavor complete todos los campos"}></Mensaje>
+                    <Error text={"Porfavor complete todos los campos"}></Error>
                 </>
             )
         }
-    }, [mail, contraseña])
+    }, [mail, contraseña])*/
+
+    const Registrar = () => {
+        router.push("/registro")
+    }
     
-    const Login = (mail, constraseña) => {
+    function Login(mail, constraseña){
+        console.log('mail:', mail, 'contraseña:',constraseña)
         if (mail === "" || constraseña === ""){
             return(
                 <>
-                    <Mensaje text={"Error, complete todos los campos."}></Mensaje>
+                    <Error text={"Error, complete todos los campos."}></Error>
                 </>
             )   
         }
@@ -47,6 +60,8 @@ export default function LoginPage(){
             mail: mail,
             contraseña: constraseña
         }
+
+        console.log(userInfo)
 
         fetch('http://localhost:4000/postLogin', {
             method: 'POST',
@@ -64,7 +79,7 @@ export default function LoginPage(){
         if (data.length === 0){ //Si no existe, muestra error (en teoria ._.)
             return(
                 <>
-                    <Mensaje text={"Error, usuario o contraseña incorrecto."}></Mensaje>
+                    <Error text={"Error, usuario o contraseña incorrecto."}></Error>
                 </>
             )
         }
@@ -77,11 +92,10 @@ export default function LoginPage(){
     return(
         <>
             <Title text={"Login"}></Title>
-            <Input title={"Mail"} type={text} placeholder={"pepito123@gmail.com"} onChange={escribirMail}></Input>
-            <Input title={"Contraseña"} type={text} placeholder={"******"} onChange={escribirContraseña}></Input>
-            <Button funcion={Login} text={"Login"} color={"green"}></Button>
-            <hr></hr>
-            <Button funcion={() => {router.push("/registro")}} text="Registrarme" color={"blue"}></Button>
+            <Input title={"Mail"} type={"text"} placeholder={"pepito123@gmail.com"} onChange={escribirMail}></Input>
+            <Input title={"Contraseña"} type={"text"} placeholder={"******"} onChange={escribirContraseña}></Input>
+            <Button onClick={Login} text={"Login"} color={"green"}></Button>
+            <Button onClick={Registrar} text={"Registrarme"} color={"blue"}></Button>
         </>
     )
 }

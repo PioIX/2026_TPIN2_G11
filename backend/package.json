@@ -1,21 +1,30 @@
 {
   "name": "2026_TPIN2_G11",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "lel",
+  "main": "index.js",
+  "bin": "index.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "pkg . --targets node18-win-x64 --output build/backend-tp2.exe"
   },
+  "keywords": [
+    "socket.io",
+    "express",
+    "nextjs",
+    "backend"
+  ],
+  "author": "Ing. Pablo Morandi",
+  "license": "ISC",
   "dependencies": {
-    "next": "16.3.4",
-    "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.18.2",
+    "socket.io": "^4.8.3"
   },
   "devDependencies": {
-    "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.4"
+    "nodemon": "^3.0.1",
+    "pkg": "^5.8.1"
   }
 }
