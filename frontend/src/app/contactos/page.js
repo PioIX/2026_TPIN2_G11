@@ -23,10 +23,7 @@ export default function Contactos() {
   return (
     <main>
       <h1>¡Bienvenido/a!</h1>
-      {chats &&
-        chats.map((chat) => {
-          <ChatList chats={chat} />;
-        })}
+      {chats && <ChatList chats={chats} />}
     </main>
   );
 }
