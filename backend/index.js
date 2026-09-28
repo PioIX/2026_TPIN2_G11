@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const { Server } = require("socket.io");
+const { realizarQuery } = require("./modulos/mysql");
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -61,33 +62,11 @@ io.on("connection", (socket) => {
   });
 });
 
-var express = require("express"); //Tipo de servidor: Express
-var bodyParser = require("body-parser"); //Convierte los JSON
-var cors = require("cors");
-
-const { realizarQuery } = require("./modulos/mysql");
-
-var app = express(); //Inicializo express
-
-app.use(express.static("../front")); //Hago que el servidor sirva los archivos de la carpeta front
-
-var port = process.env.PORT || 4000; //Ejecuto el servidor en el puerto 4000
-
-// Convierte una petición recibida (POST-GET...) a objeto JSON
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cors());
-
-//Pongo el servidor a escuchar
-app.listen(port, function () {
-  console.log(`Server running in http://localhost:${port}`);
-});
-
 // GET
 app.get("/getUsuarios", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM Usuarios;
+        SELECT * FROM Usuarios_TP2;
     `);
   console.log({ respuesta });
   res.send(respuesta);
@@ -96,7 +75,7 @@ app.get("/getUsuarios", async function (req, res) {
 app.get("/getUsuariosChat", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM UsuariosChat WHERE id_usuario = ${req.query} ;
+        SELECT Chats_TP2.id_chat, Chats_TP2.nombre, Chats_TP2.foto FROM UsuariosChat_TP2 INNER JOIN Chats_TP2 ON UsuariosChat_TP2.id_chat = Chats_TP2.id_chat WHERE UsuariosChat_TP2.id_usuario = ${req.query.id_usuario};
     `);
   console.log({ respuesta });
   res.send(respuesta);
@@ -105,7 +84,7 @@ app.get("/getUsuariosChat", async function (req, res) {
 app.get("/getChats", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM Chats;
+        SELECT * FROM Chats_TP2;
     `);
   console.log({ respuesta });
   res.send(respuesta);
@@ -114,7 +93,7 @@ app.get("/getChats", async function (req, res) {
 app.get("/getMensajes", async function (req, res) {
   console.log(req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM Mensajes WHERE id_chat = ${req.query};
+        SELECT * FROM Mensajes_TP2 WHERE id_chat = ${req.query};
     `);
   console.log({ respuesta });
   res.send(respuesta);
@@ -124,7 +103,7 @@ app.get("/getMensajes", async function (req, res) {
 app.get("/getLoginNombre", async function (req, res) {
   console.log("get /getloginnombre req.query:", req.query);
   const respuesta = await realizarQuery(`
-        SELECT * FROM Usuarios WHERE nombre = '${req.query.nombre}';
+        SELECT * FROM Usuarios_TP2 WHERE nombre = '${req.query.nombre}';
     `);
   console.log({ respuesta: respuesta });
   res.send(respuesta);
@@ -135,22 +114,21 @@ app.get("/getLoginNombre", async function (req, res) {
 app.post("/postUsuarios", async function (req, res) {
   console.log(req.body);
   let respuesta = await realizarQuery(
-    `SELECT * FROM Usuarios WHERE nombre = '${req.body.nombre}' AND contraseña = '${req.body.contraseña}' AND mail = '${req.body.mail}'`
+    `SELECT * FROM Usuarios_TP2 WHERE nombre = '${req.body.nombre}' AND contraseña = '${req.body.contraseña}' AND mail = '${req.body.mail}'`
   );
   if (respuesta.length == 0) {
     await realizarQuery(
-      `INSERT INTO Usuarios(nombre, descripcion, foto, contraseña,) VALUES ('${req.body.nombre}', '${req.body.descripcion}', '${req.body.foto}', '${req.body.contraseña}', '${req.body.mail}')`
+      `INSERT INTO Usuarios_TP2(nombre, descripcion, foto, contraseña,) VALUES ('${req.body.nombre}', '${req.body.descripcion}', '${req.body.foto}', '${req.body.contraseña}', '${req.body.mail}')`
     );
   }
   console.log({ respuesta });
   res.send(respuesta);
 });
 
-
 app.post("/postChats", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `INSERT INTO Chats(nombre, foto) VALUES ('${req.body.nombre}', '${req.body.foto}')`
+    `INSERT INTO Chats_TP2(nombre, foto) VALUES ('${req.body.nombre}', '${req.body.foto}')`
   );
   console.log({ respuesta });
   res.send(respuesta);
@@ -159,7 +137,7 @@ app.post("/postChats", async function (req, res) {
 app.post("/postMensajes", async function (req, res) {
   console.log(req.body);
   const respuesta = await realizarQuery(
-    `INSERT INTO Mensajes(contenido, imagen, id_usuario, id_chat) VALUES ('${req.body.contenido}', '${req.body.imagen}', ${req.body.partidas_totales}, ${req.body.id_chat})`
+    `INSERT INTO Mensajes_TP2(contenido, imagen, id_usuario, id_chat) VALUES ('${req.body.contenido}', '${req.body.imagen}', ${req.body.partidas_totales}, ${req.body.id_chat})`
   );
   console.log({ respuesta });
   res.send(respuesta);

@@ -11,7 +11,7 @@ import Message from "./Message.js";
 export default function Chat() {
   const searchParams = useSearchParams();
   const sala = searchParams.get("sala");
-  const userID = localStorage.getItem(userID);
+  const userID = searchParams.get("usuario");
   const router = useRouter();
   const { socket, isConnected } = useSocket();
 
@@ -36,7 +36,10 @@ export default function Chat() {
     if (!socket) return;
 
     const mensajeEntrante = (data) => {
-      setConversacion((prevConversacion) => [...prevConversacion, data.message]);
+      setConversacion((prevConversacion) => [
+        ...prevConversacion,
+        data.message,
+      ]);
     };
 
     socket.on("newMessage", mensajeEntrante);
@@ -88,12 +91,12 @@ export default function Chat() {
         value={mensaje}
         onChange={(e) => setMensaje(e.target.value)}
       />
-      <button onClick={enviarMensaje}>
-        Enviar
-      </button>
-      <button onClick={() => {router.push(`/contactos`)}}>
-
-      </button>
-    </main >
+      <button onClick={enviarMensaje}>Enviar</button>
+      <button
+        onClick={() => {
+          router.push(`/contactos`);
+        }}
+      ></button>
+    </main>
   );
 }
